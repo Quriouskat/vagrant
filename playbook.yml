@@ -1,0 +1,56 @@
+---
+- name: Install LAMP Stack on ubuntu 20.04
+  hosts: 192.168.56.3
+  become: true
+  become_exe: sudo
+
+
+  tasks: 
+    - name: Update APT cache
+      ansible.builtin.apt:
+        update_cache: true
+        upgrade: true
+
+    - name: Install Apache2
+      ansible.builtin.apt:
+        name: apache2
+        state: latest
+
+    - name: Install curl and wget
+      ansible.builtin.apt:
+        name: 
+          - curl
+          - wget
+        state: present
+
+    - name: Install MySQL
+      ansible.builtin.apt:
+        name: mysql-server
+        state: present
+
+    - name: Secure MySQL
+      community.mysql.mysql_user:
+        name: root
+        password: root
+        host: localhost
+        login_unix_socket: /var/run/mysqld/mysqld.sock
+
+
+    - name: Install PHP
+      ansible.builtin.apt:
+        name:
+          - php7.4-cli
+          - php7.4-json
+          - php7.4-common
+          - php7.4-mysql
+          - php7.4-zip
+          - php7.4-gd
+          - php7.4-mbstring
+          - php7.4-curl
+          - php7.4-xml
+          - php7.4-bcmath
+
+
+    
+        
+
